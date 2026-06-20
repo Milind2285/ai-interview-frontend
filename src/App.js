@@ -35,7 +35,7 @@ const [maxQuestions] = useState(5);
   try {
 
     const response = await axios.get(
-  `http://localhost:8080/question?role=${role}&difficulty=${difficulty}`
+  `https://ai-interview-backend-w65c.onrender.com/question?role=${role}&difficulty=${difficulty}`
 );
 
     setQuestion(response.data);
@@ -79,7 +79,7 @@ setSubmitted(true);
   try {
 
     const response = await axios.post(
-      "http://localhost:8080/evaluate",
+      "https://ai-interview-backend-w65c.onrender.com/evaluate",
       answer,
       {
         headers: {
