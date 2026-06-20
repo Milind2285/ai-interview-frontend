@@ -16,7 +16,7 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [difficulty, setDifficulty] = useState("Medium");
-  const [scores, setScores] = useState([]);
+  const [scores] = useState([])
   const [questionNumber, setQuestionNumber] = useState(1);
 const [maxQuestions] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -26,8 +26,6 @@ const [maxQuestions] = useState(5);
   const [feedback, setFeedback] = useState("");
   const [timerActive, setTimerActive] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [weakAreas, setWeakAreas] = useState([]);
-  const [recommendations, setRecommendations] = useState([]);
   const startInterview = async () => {
 
   setLoading(true);
@@ -89,21 +87,7 @@ setSubmitted(true);
     );
 
     setFeedback(response.data);
-    const match = response.data.match(/Score:\s*(\d+)\/10/i);
 
-if (match) {
-  const score = parseInt(match[1]);
-  setScores(prev => [...prev, score]);
-  if (score < 5) {
-    setWeakAreas(prev => [...prev, question]);
-  }
-  if(score < 5){
-  setRecommendations(prev => [
-  ...prev,
-  question
-]);
-}
-}
 
   } catch (error) {
 
@@ -182,7 +166,7 @@ useEffect(() => {
 
   return () => clearInterval(timer);
 
-}, [timeLeft]);
+}, [timeLeft, question, timerActive]);
 useEffect(() => {
 
   if (timeLeft === 0 && answer.trim()) {
@@ -191,7 +175,7 @@ useEffect(() => {
 
   }
 
-}, [timeLeft]);
+}, [timeLeft, answer, submitAnswer]);
 const chartData = scores.map((score, index) => ({
   question: `Q${index + 1}`,
   score: score
