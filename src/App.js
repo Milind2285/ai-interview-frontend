@@ -16,7 +16,7 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [difficulty, setDifficulty] = useState("Medium");
-  const [scores] = useState([])
+  const [scores, setScores] = useState([]);
   const [questionNumber, setQuestionNumber] = useState(1);
 const [maxQuestions] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -73,7 +73,6 @@ const nextQuestion = async () => {
 setSubmitted(true);
   setTimerActive(false);
   setLoading(true);
-
   try {
 
     const response = await axios.post(
@@ -87,8 +86,12 @@ setSubmitted(true);
     );
 
     setFeedback(response.data);
+    const match = response.data.match(/Score:\s*(\d+)/i);
 
-
+if (match) {
+  const score = parseInt(match[1]);
+  setScores(prev => [...prev, score]);
+}
   } catch (error) {
 
     console.error(error);
